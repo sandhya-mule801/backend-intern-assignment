@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h2>Notes App</h2>
+
+<input id="token" placeholder="Paste JWT token"><br><br>
+<input id="title" placeholder="Title"><br>
+<textarea id="content"></textarea><br>
+<button onclick="saveNote()">Save</button>
+
+<script>
+function saveNote(){
+  fetch("http://127.0.0.1:8000/api/notes/", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer " + document.getElementById("token").value
+    },
+    body: JSON.stringify({
+      title: document.getElementById("title").value,
+      content: document.getElementById("content").value
+    })
+  })
+  .then(res => res.json())
+  .then(data => {
+    console.log(data);
+    alert("Saved");
+  })
+  .catch(err => {
+    console.error(err);
+    alert("Error aaya");
+  });
+}
+</script>
+
+</body>
+</html>
